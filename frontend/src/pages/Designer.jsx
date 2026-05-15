@@ -250,7 +250,7 @@ const Editor = ({ category, onBack }) => {
     setEditingTextId(null);
     try {
       await new Promise((r) => setTimeout(r, 100));
-      const dataUrl = await toPng(canvasRef.current, { cacheBust: true, pixelRatio: 2, backgroundColor: "#0A0A0A" });
+      const dataUrl = await toPng(canvasRef.current, { cacheBust: true, pixelRatio: 2, backgroundColor: "#0A0A0A", fontEmbedCSS: "" });
       const today = new Date().toISOString().slice(0, 10);
       const link = document.createElement("a");
       link.download = `DERIS-Design-${category[0].toUpperCase() + category.slice(1)}-${today}.png`;
