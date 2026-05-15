@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { Star, UploadSimple, CheckCircle, WhatsappLogo, Quotes } from "@phosphor-icons/react";
 import { STORY_QUOTES, REVIEWS, buildWaMessage } from "../lib/constants";
 
+const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+
 export default function JoinStory() {
   const [quoteIdx, setQuoteIdx] = useState(0);
-  const [form, setForm] = useState({ name: "", org: "", rating: 5, text: "", photo: null });
+  const [form, setForm] = useState({ name: "", org: "", rating: 5, text: "", photo: null, photoDataUrl: null });
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const t = setInterval(() => setQuoteIdx((i) => (i + 1) % STORY_QUOTES.length), 4500);
@@ -14,11 +18,27 @@ export default function JoinStory() {
 
   const onPhoto = (e) => {
     const f = e.target.files?.[0];
-    if (f) setForm({ ...form, photo: f.name });
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => setForm((s) => ({ ...s, photo: f.name, photoDataUrl: ev.target.result }));
+    reader.readAsDataURL(f);
   };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
+    setSubmitting(true);
+    try {
+      await axios.post(`${API}/reviews`, {
+        name: form.name,
+        org: form.org,
+        rating: form.rating,
+        text: form.text,
+        photo_data_url: form.photoDataUrl,
+      });
+    } catch (err) {
+      // Continue to WA flow even if API fails
+      console.error("review post failed", err);
+    }
     const msg =
       `Halo DERIS, saya ingin berbagi cerita:\n\n` +
       `Nama: ${form.name}\n` +
@@ -26,8 +46,9 @@ export default function JoinStory() {
       `Rating: ${"★".repeat(form.rating)}${"☆".repeat(5 - form.rating)}\n` +
       `Cerita: ${form.text}\n` +
       (form.photo ? `Foto: ${form.photo} (akan dikirim terpisah)\n` : "") +
-      `\nMohon dipublikasikan jika berkenan. Terima kasih!`;
+      `\nMohon di-review & dipublikasikan jika berkenan. Terima kasih!`;
     setSubmitted(true);
+    setSubmitting(false);
     setTimeout(() => window.open(buildWaMessage(msg), "_blank"), 800);
   };
 
@@ -79,8 +100,8 @@ export default function JoinStory() {
             {submitted ? (
               <div data-testid="success-state" className="text-center py-12 success-pulse">
                 <CheckCircle size={72} weight="duotone" className="text-[#D4AF37] mx-auto mb-6" />
-                <h3 className="font-display text-3xl md:text-4xl font-bold tracking-tighter mb-3">Terima kasih, ceritamu sudah kami terima!</h3>
-                <p className="text-white/65 max-w-md mx-auto">Tim DERIS akan menghubungi via WhatsApp untuk konfirmasi & publikasi.</p>
+                <h3 className="font-display text-3xl md:text-4xl font-bold tracking-tighter mb-3">Terima kasih sudah menjadi bagian dari cerita DERIS!</h3>
+                <p className="text-white/65 max-w-md mx-auto">Ulasanmu sedang kami review dan akan segera ditampilkan di halaman utama. Tim DERIS akan menghubungi via WhatsApp untuk konfirmasi.</p>
               </div>
             ) : (
               <>
@@ -132,10 +153,11 @@ export default function JoinStory() {
 
                   <button
                     type="submit"
+                    disabled={submitting}
                     data-testid="story-submit"
-                    className="w-full inline-flex items-center justify-center gap-2 px-7 py-4 bg-[#D4AF37] hover:bg-[#F5C34A] text-black font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5"
+                    className="w-full inline-flex items-center justify-center gap-2 px-7 py-4 bg-[#D4AF37] hover:bg-[#F5C34A] text-black font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-wait"
                   >
-                    <WhatsappLogo size={20} weight="fill" /> Kirim Cerita ke DERIS
+                    <WhatsappLogo size={20} weight="fill" /> {submitting ? "Mengirim…" : "Kirim Cerita ke DERIS"}
                   </button>
                 </form>
               </>

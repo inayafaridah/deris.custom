@@ -46,8 +46,8 @@ export default function About() {
                 Kami percaya setiap jaket bukan hanya pakaian — ia adalah identitas, kenangan angkatan, dan simbol kebersamaan.
               </p>
             </div>
-            <div className="md:col-span-7 md:row-span-2 aspect-[16/12] md:aspect-auto overflow-hidden">
-              <img src={MEDIA.community} alt="community" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
+            <div className="md:col-span-7 md:row-span-2 aspect-[16/12] md:aspect-auto overflow-hidden bg-white">
+              <img src={MEDIA.aboutMain} alt="DERIS Community" className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-700" />
             </div>
             <div className="md:col-span-5 bg-[#141414] border border-white/10 p-8 md:p-10">
               <p className="overline text-[#D4AF37] mb-4">Misi Kami</p>

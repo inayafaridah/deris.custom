@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import {
   Upload, TextT, ArrowsClockwise, Trash, WhatsappLogo, Palette, Plus,
-  CoatHanger, TShirt, ArrowLeft, FileArrowUp, CheckCircle,
+  CoatHanger, TShirt, ArrowLeft, FileArrowUp, CheckCircle, DownloadSimple,
 } from "@phosphor-icons/react";
+import { toPng } from "html-to-image";
+import { toast } from "sonner";
 import { buildWaMessage } from "../lib/constants";
 
 const CATEGORIES = [
@@ -166,7 +168,9 @@ const Editor = ({ category, onBack }) => {
   const [front, setFront] = useState([{ id: "init", type: "text", text: "DERIS", x: 50, y: 40, size: 28, color: "#D4AF37", font: "Cabinet Grotesk", weight: 700, align: "center" }]);
   const [back, setBack] = useState([{ id: "initB", type: "text", text: "ANGKATAN '25", x: 50, y: 30, size: 24, color: "#FFFFFF", font: "Cabinet Grotesk", weight: 700, align: "center" }]);
   const [selectedId, setSelectedId] = useState(null);
+  const [editingTextId, setEditingTextId] = useState(null);
   const [newText, setNewText] = useState("");
+  const [downloading, setDownloading] = useState(false);
   const canvasRef = useRef(null);
   const dragRef = useRef({ id: null, offX: 0, offY: 0 });
 
@@ -239,6 +243,35 @@ const Editor = ({ category, onBack }) => {
     window.open(buildWaMessage(text), "_blank");
   };
 
+  const downloadMockup = async () => {
+    if (!canvasRef.current) return;
+    setDownloading(true);
+    setSelectedId(null);
+    setEditingTextId(null);
+    try {
+      await new Promise((r) => setTimeout(r, 100));
+      const dataUrl = await toPng(canvasRef.current, { cacheBust: true, pixelRatio: 2, backgroundColor: "#0A0A0A" });
+      const today = new Date().toISOString().slice(0, 10);
+      const link = document.createElement("a");
+      link.download = `DERIS-Design-${category[0].toUpperCase() + category.slice(1)}-${today}.png`;
+      link.href = dataUrl;
+      link.click();
+      toast.success("Mockup berhasil diunduh!", { description: "Siap untuk dikirim ke tim DERIS." });
+    } catch (e) {
+      toast.error("Gagal mengunduh mockup", { description: e.message });
+    } finally {
+      setDownloading(false);
+    }
+  };
+
+  const onItemDblClick = (e, item) => {
+    e.stopPropagation();
+    setSelectedId(item.id);
+    if (item.type === "text") setEditingTextId(item.id);
+  };
+
+  const finishEditing = () => setEditingTextId(null);
+
   return (
     <div data-testid="designer-editor" className="pb-20 md:pb-32">
       <section className="pt-20 pb-6 md:pt-28 md:pb-10">
@@ -266,22 +299,55 @@ const Editor = ({ category, onBack }) => {
                   className={`px-5 py-2 text-sm font-semibold rounded-full transition-colors ${side === "back" ? "bg-[#D4AF37] text-black" : "bg-[#141414] text-white/70 border border-white/10 hover:border-[#D4AF37]"}`}>
                   Belakang
                 </button>
-                <span className="ml-auto text-xs text-white/40 hidden md:inline">Klik & seret elemen untuk memindah</span>
+                <button onClick={downloadMockup} disabled={downloading} data-testid="download-mockup-btn"
+                  className="ml-auto inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold rounded-full bg-[#D4AF37] hover:bg-[#F5C34A] text-black disabled:opacity-60 disabled:cursor-wait transition-all">
+                  {downloading ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                      Menyiapkan…
+                    </>
+                  ) : (
+                    <>
+                      <DownloadSimple size={16} weight="bold" />
+                      Download Mockup
+                    </>
+                  )}
+                </button>
               </div>
+              <p className="text-xs text-white/40 mb-3 hidden md:block">Klik & seret untuk memindah · Double-klik elemen untuk edit cepat</p>
 
               <div ref={canvasRef} data-testid="design-canvas" onClick={() => setSelectedId(null)}
                 className="relative aspect-square w-full bg-gradient-to-br from-[#1a1a1a] via-[#262626] to-[#1a1a1a] border border-white/10 overflow-hidden select-none touch-none rounded-sm">
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(212,175,55,0.06)_0%,_transparent_60%)]" />
                 <ApparelSVG category={category} bodyColor={bodyColor} sleevesColor={sleevesColor} side={side} />
                 {items.map((it) => (
-                  <div key={it.id} onPointerDown={(e) => onPointerDown(e, it)}
+                  <div key={it.id} onPointerDown={(e) => onPointerDown(e, it)} onDoubleClick={(e) => onItemDblClick(e, it)}
                     className={`absolute cursor-move touch-none ${selectedId === it.id ? "outline outline-2 outline-[#D4AF37] outline-offset-2" : ""}`}
                     style={{ left: `${it.x}%`, top: `${it.y}%`, transform: "translate(-50%, -50%)" }}
                     data-testid={`overlay-${it.id}`}>
                     {it.type === "text" ? (
-                      <span style={{ fontFamily: it.font, fontSize: `${it.size}px`, color: it.color, fontWeight: it.weight, letterSpacing: "-0.02em", whiteSpace: "nowrap", textAlign: it.align || "center", textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
-                        {it.text}
-                      </span>
+                      editingTextId === it.id ? (
+                        <input
+                          autoFocus
+                          type="text"
+                          value={it.text}
+                          onChange={(e) => updateSelected({ text: e.target.value })}
+                          onBlur={finishEditing}
+                          onKeyDown={(e) => { if (e.key === "Enter" || e.key === "Escape") finishEditing(); }}
+                          onPointerDown={(e) => e.stopPropagation()}
+                          data-testid="inline-edit-text"
+                          style={{
+                            fontFamily: it.font, fontSize: `${it.size}px`, color: it.color, fontWeight: it.weight,
+                            letterSpacing: "-0.02em", textAlign: it.align || "center",
+                            background: "rgba(0,0,0,0.4)", border: "1px dashed #D4AF37", padding: "2px 6px", outline: "none",
+                            minWidth: "120px", textShadow: "0 1px 4px rgba(0,0,0,0.4)",
+                          }}
+                        />
+                      ) : (
+                        <span style={{ fontFamily: it.font, fontSize: `${it.size}px`, color: it.color, fontWeight: it.weight, letterSpacing: "-0.02em", whiteSpace: "nowrap", textAlign: it.align || "center", textShadow: "0 1px 4px rgba(0,0,0,0.4)" }}>
+                          {it.text}
+                        </span>
+                      )
                     ) : (
                       <img src={it.src} alt="logo" style={{ width: `${it.size * 4}px`, height: "auto", maxWidth: "240px" }} draggable={false} />
                     )}

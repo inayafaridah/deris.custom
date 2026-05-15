@@ -49,7 +49,7 @@ export default function Portfolio() {
           <div className="mt-16 text-center border-t border-white/10 pt-12">
             <p className="text-white/60 mb-4">Mau jadi bagian dari portfolio DERIS berikutnya?</p>
             <a
-              href="https://wa.me/6283123453430?text=Halo%20DERIS,%20kami%20mau%20konsultasi%20pemesanan%20jaket%20komunitas."
+              href="https://wa.me/6281213167737?text=Halo%20DERIS,%20kami%20mau%20konsultasi%20pemesanan%20jaket%20komunitas."
               target="_blank" rel="noreferrer" data-testid="portfolio-cta"
               className="inline-flex items-center gap-2 px-7 py-4 bg-[#D4AF37] hover:bg-[#F5C34A] text-black font-semibold rounded-full transition-all duration-300 hover:-translate-y-0.5"
             >

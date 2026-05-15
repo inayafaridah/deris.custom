@@ -3,8 +3,8 @@ export const BRAND = {
   subtitle: "Custom Apparel",
   tagline: "Jaket Custom untuk Cerita dan Solidaritas",
   cities: ["Bandung", "Jakarta"],
-  whatsapp: "08312345343",
-  whatsappLink: "https://wa.me/6283123453430",
+  whatsapp: "081213167737",
+  whatsappLink: "https://wa.me/6281213167737",
   instagram: "deris.custom",
   instagramLink: "https://instagram.com/deris.custom",
   logo: "https://customer-assets.emergentagent.com/job_jaket-komunitas/artifacts/dxv1bp4a_Logo%20Deris%20BG.Putih.jpg",
@@ -25,18 +25,18 @@ export const MEDIA = {
   jacketMockup: "https://static.prod-images.emergentagent.com/jobs/9ec8d59b-6c96-4bab-b61d-8d70a498f9e8/images/fbc44b6fe3c47eda068c52dcc8d5876baa944a66f375b139b3ece3a5bcf010ed.png",
   aboutMain: "https://customer-assets.emergentagent.com/job_jaket-komunitas/artifacts/7k9htqmy_foto%20utama1.jpeg",
   community: "https://images.unsplash.com/photo-1549057446-9f5c6ac91a04?crop=entropy&cs=srgb&fm=jpg&w=1400&q=85",
-  // Product visuals
-  varsity1: "https://images.unsplash.com/photo-1771310972919-b91ef93d08ef?crop=entropy&cs=srgb&fm=jpg&w=1200&q=85",
-  varsity2: "https://images.unsplash.com/photo-1663374723561-885d23959717?crop=entropy&cs=srgb&fm=jpg&w=1200&q=85",
-  bomber: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=1200&q=85",
-  harrington: "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?w=1200&q=85",
-  coach: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=1200&q=85",
-  windbreaker: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=1200&q=85",
-  hoodie: "https://images.unsplash.com/photo-1680292783974-a9a336c10366?crop=entropy&cs=srgb&fm=jpg&w=1200&q=85",
-  kemeja: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=1200&q=85",
-  kaos: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?crop=entropy&cs=srgb&fm=jpg&w=1200&q=85",
-  topi: "https://images.unsplash.com/photo-1521369909029-2afed882baee?w=1200&q=85",
-  lanyard: "https://images.unsplash.com/photo-1612280283099-6306c7c43bd5?w=1200&q=85",
+  // Product visuals — AI generated via Gemini Nano Banana
+  varsity1: "/generated/varsity-jacket.png",
+  varsity2: "/generated/varsity-jacket.png",
+  bomber: "/generated/bomber-jacket.png",
+  harrington: "/generated/harrington-jacket.png",
+  coach: "/generated/coach-jacket.png",
+  windbreaker: "/generated/windbreaker.png",
+  hoodie: "/generated/hoodie.png",
+  kemeja: "/generated/kemeja.png",
+  kaos: "/generated/kaos.png",
+  topi: "/generated/topi.png",
+  lanyard: "/generated/lanyard.png",
   // Size chart images
   sizeKemeja: "https://customer-assets.emergentagent.com/job_jaket-komunitas/artifacts/0n2ae6p4_size1.jpg",
   sizeKaosPendek: "https://customer-assets.emergentagent.com/job_jaket-komunitas/artifacts/4qx07bse_size2.jpg",
@@ -88,7 +88,7 @@ export const PRODUCTS = [
   {
     slug: "hoodie",
     name: "Hoodie Custom",
-    category: "Hoodie",
+    category: "Pakaian",
     image: MEDIA.hoodie,
     desc: "Hoodie fleece tebal yang nyaman dan hangat. Bisa custom warna, sablon dada, lengan, hingga punggung.",
     materials: ["Fleece 300gsm", "Kanguru pocket", "Cotton brushed", "Sablon DTF / Plastisol"],
@@ -96,7 +96,7 @@ export const PRODUCTS = [
   {
     slug: "kemeja-flannel",
     name: "Kemeja & Flannel",
-    category: "Kemeja",
+    category: "Pakaian",
     image: MEDIA.kemeja,
     desc: "Kemeja PDH dan flannel custom untuk seragam organisasi atau brand komunitas. Jahitan rapi, bahan premium.",
     materials: ["Drill / Flannel", "Cotton oxford", "Bordir komputer", "Custom ukuran S–XXL"],
@@ -104,7 +104,7 @@ export const PRODUCTS = [
   {
     slug: "kaos-komunitas",
     name: "Kaos Komunitas",
-    category: "Kaos",
+    category: "Pakaian",
     image: MEDIA.kaos,
     desc: "Kaos cotton combed 24s/30s dengan teknik sablon DTF, plastisol, atau bordir. Cocok untuk merchandise organisasi.",
     materials: ["Cotton Combed 24s/30s", "Sablon DTF", "Sablon Plastisol", "Bordir komputer"],
@@ -112,7 +112,7 @@ export const PRODUCTS = [
   {
     slug: "topi",
     name: "Topi & Bucket",
-    category: "Headwear",
+    category: "Aksesoris",
     image: MEDIA.topi,
     desc: "Topi baseball, snapback, dan bucket hat dengan bordir custom. Cocok sebagai merchandise pelengkap.",
     materials: ["Rasher / Drill", "Twill premium", "Bordir komputer", "Snap closure"],
@@ -248,6 +248,6 @@ export const STORY_QUOTES = [
 ];
 
 export const buildWaMessage = (text) => {
-  const num = "6283123453430";
+  const num = "6281213167737";
   return `https://wa.me/${num}?text=${encodeURIComponent(text)}`;
 };

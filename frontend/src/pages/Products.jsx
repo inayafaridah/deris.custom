@@ -2,7 +2,7 @@ import { useState } from "react";
 import { PRODUCTS, SIZE_CHARTS, buildWaMessage, BRAND } from "../lib/constants";
 import { ArrowRight, WhatsappLogo, Ruler, X } from "@phosphor-icons/react";
 
-const CATEGORIES = ["Semua", "Jaket", "Hoodie", "Kaos", "Kemeja", "Headwear", "Aksesoris"];
+const CATEGORIES = ["Semua", "Jaket", "Pakaian", "Aksesoris"];
 
 export default function Products() {
   const [cat, setCat] = useState("Semua");
