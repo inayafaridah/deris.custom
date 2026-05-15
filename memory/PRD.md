@@ -2,74 +2,56 @@
 
 ## Original Problem Statement
 Build a UMKM business website for **DERIS** — vendor jaket custom (kemeja, kaos, topi) di Bandung & Jakarta.
-- Tagline: *Jaket Custom untuk Cerita dan Solidaritas*
-- Target: Mahasiswa, organisasi kampus, himpunan, komunitas
-- Warna brand: Hitam, Putih, Emas
-- Mood: Modern, kekinian, rapi, profesional, premium
-- Referensi visual: Mimikri Supply & CustomVarsity
-- Fitur khusus: Make a Custom Design (interactive canvas designer)
-- Kontak: WA 08312345343, IG @deris.custom
 
-## User Choices (confirmed)
-1. Designer: **Interactive canvas** (drag/drop logo + text on jacket mockup, front/back, real-time preview)
-2. Images: **Stock/placeholder** (varsity jackets, kaos, hoodie, topi)
-3. Pages: **All 7** — Home, About, Products, Make a Design, Portfolio, FAQ, Contact
-4. Backend: **No database** — orders go directly to WhatsApp
-5. Language: **Bahasa Indonesia only**
-6. Added later: real logo image, real Telkom University client portfolio, Size Chart Google Drive link
+## User Choices (cumulative)
+- Interactive canvas designer for "Make a Design"
+- Indonesian language
+- WhatsApp only — no database
+- All 7 pages initially, then revised: replaced Contact with Join the Story
+- DERIS logo provided (and 5 client logos), foto utama1, size1-4 images uploaded
+- Use Gemini Nano Banana for missing images (infrastructure in place — `generate_images.py`)
+- Simple dark/light theme toggle
 
 ## Architecture
-- **Frontend only** — React + React Router + TailwindCSS + Shadcn/UI
-- No backend logic, no database, no third-party API integration
-- WhatsApp deeplink (wa.me/6283123453430) for all orders
-- Hosting: standard Emergent preview
+- **Frontend only** — React + React Router + TailwindCSS + Shadcn/UI + Phosphor Icons
+- No DB. WhatsApp deeplink for all orders.
+- Gemini Nano Banana script `/app/backend/generate_images.py` available (uses EMERGENT_LLM_KEY)
 
-## User Personas
-- **Ketua Himpunan / BEM** — mencari vendor amanah untuk produksi jaket angkatan
-- **Ketua Komunitas** — butuh merchandise (kaos, topi, jaket) seragam
-- **Mahasiswa Mandiri** — order individu desain custom
+## Pages (current)
+- Home: hero, logo marquee (5 clients), values, products preview, Our Services (4 packages), Designer CTA, Kata Mereka reviews carousel
+- About: logo display, foto utama1, story cards, 3-step process, CountUp stats
+- Products: 10 products (incl. Lanyard, Harrington, Coach, Windbreaker), no prices, materials list, 4 visual size charts + zoom, Drive link
+- Make a Design: 3-step flow — category select → have-design-or-create → upload OR interactive editor with align toggle and 8 fonts
+- Portfolio: 6 client galleries with Lightbox (keyboard navigation)
+- FAQ: 8 questions (incl. size chart)
+- Join the Story: hero, auto-rotating quotes (5), form (name/org/rating/text/photo), success state, featured reviews
 
-## Core Requirements (static)
-- Premium dark theme: #0A0A0A black, #D4AF37 gold, white
-- Cabinet Grotesk (heading) + Manrope (body) typography
-- Mobile-responsive, fully Indonesian copy
-- All interactive elements have data-testid attributes
+## Components
+- Sticky header with logo, theme toggle (dark/light), Order via WA, mobile menu
+- Footer with massive brand text, navigation, contacts
+- LogoMarquee, ReviewsCarousel, CountUp, Lightbox, ThemeContext
 
-## What's Been Implemented (Feb 2026)
-### Pages
-- **Home**: hero (jacket image + tagline), 4 value props, brand marquee, 6-product preview, designer CTA, testimonial
-- **About**: brand logo display, 3-step process, 4 stats, story cards
-- **Products**: 6 products, category filter (Jaket/Hoodie/Kaos/Kemeja/Headwear), Size Chart link, per-product WhatsApp button
-- **Make a Design**: SVG jacket mockup (depan/belakang), 6 color presets + custom color pickers, add text/upload logo, drag-drop, edit font/color/size, send to WhatsApp
-- **Portfolio**: 6 real client projects (HIMA Teknik Telekomunikasi Telkom Univ, IEEE Telkom Univ, TELCO 2025, etc.)
-- **FAQ**: 8 questions in Shadcn accordion (incl. size chart info)
-- **Contact**: 3 contact cards (WA, IG, location) + form that sends structured message to WhatsApp
-
-### Components
-- Sticky glassmorphism header with DERIS logo + mobile menu
-- Footer with massive brand-text, contact cards, navigation
-
-### Integrations
-- DERIS logo image (provided by user) used in header, footer, about
-- Size Chart link to Google Drive (jaket, kaos, kemeja, sampai 8XL)
-- Favicon updated to DERIS logo
+## Theme System
+- CSS variables in `:root` and `html.light-mode`
+- Light mode: bg #FAFAFA, surface #FFFFFF, text dark, gold accent unchanged
+- Persists via localStorage `deris-theme`
+- Hero text uses `text-[#FFFFFF]` arbitrary class to stay white over dark image
 
 ## Testing
-- Iteration 1: **100% pass** on frontend (all 7 routes, designer drag-drop, WA links, filters, accordion)
+- Iteration 1: 100% pass (initial 7-page MVP)
+- Iteration 2: 100% pass (10+ feature major revision)
 
-## Prioritized Backlog (P0/P1/P2)
-### P0 (deferred to user request)
-- Real product photos from Instagram (currently stock images)
+## Backlog
+### P0
+- Generate AI product/portfolio images via Gemini Nano Banana script (infrastructure ready, just run `python generate_images.py` — uses LLM credits)
 
-### P1 (nice to have)
-- Add "Download Mockup" feature in Designer (export canvas as image via html2canvas)
-- Add WhatsApp floating button (sticky on all pages)
-- Add visible back-view differentiation in jacket SVG (currently nearly identical to front)
-- Add Surabaya & Aceh to cities (visible in IG bio)
+### P1
+- Floating WhatsApp button (sticky on all pages)
+- Designer: "Download Mockup" feature (html2canvas export)
+- Differentiate back-view jacket SVG more visibly
 
-### P2 (future)
-- Google Reviews integration for testimonials
-- Order tracking system (would require backend)
-- Live chat widget
-- SEO meta tags per page, sitemap.xml
-- Blog/journal section for community stories
+### P2
+- Split Designer.jsx (442 lines) into separate component files
+- SEO meta tags per page
+- Google Reviews integration
+- Order tracking system (requires backend)
