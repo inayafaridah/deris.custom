@@ -1,10 +1,11 @@
 import { MEDIA, BRAND } from "../lib/constants";
 import { Sparkle, Scissors, Users } from "@phosphor-icons/react";
+import { CountUp } from "../components/CountUp";
 
 export default function About() {
   return (
     <div data-testid="about-page">
-      <section className="pt-20 pb-16 md:pt-32 md:pb-24">
+      <section className="pt-20 pb-12 md:pt-32 md:pb-16">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="flex items-center gap-6 mb-10">
             <div className="w-24 h-24 md:w-28 md:h-28 bg-white rounded-full flex items-center justify-center overflow-hidden shrink-0 ring-2 ring-[#D4AF37]/40">
@@ -22,29 +23,37 @@ export default function About() {
         </div>
       </section>
 
+      {/* Foto utama from user */}
+      <section className="pb-12 md:pb-20">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
+          <div className="relative aspect-[16/10] md:aspect-[16/8] overflow-hidden bg-white border border-white/10">
+            <img src={MEDIA.aboutMain} alt="DERIS Community" className="w-full h-full object-cover" />
+          </div>
+          <p className="text-xs text-center text-white/40 mt-3 overline">There Is Your Apparel · DERIS Community 2024</p>
+        </div>
+      </section>
+
       <section className="pb-24 md:pb-32">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-6">
-            <div className="md:col-span-7 md:row-span-2 aspect-[16/12] md:aspect-auto overflow-hidden">
-              <img src={MEDIA.community} alt="community" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
-            </div>
             <div className="md:col-span-5 bg-[#141414] border border-white/10 p-8 md:p-10">
               <p className="overline text-[#D4AF37] mb-4">Cerita Kami</p>
               <h2 className="font-display text-3xl md:text-4xl font-bold tracking-tighter leading-tight mb-4">
                 Dari Bandung untuk Indonesia.
               </h2>
               <p className="text-white/70 leading-relaxed text-sm md:text-base">
-                Berdiri sejak 2018, DERIS lahir dari kebutuhan mahasiswa akan vendor jaket
-                yang amanah dan transparan. Kami percaya setiap jaket bukan hanya pakaian—
-                ia adalah identitas, kenangan angkatan, dan simbol kebersamaan.
+                Berdiri sejak 2018, DERIS lahir dari kebutuhan mahasiswa akan vendor jaket yang amanah dan transparan.
+                Kami percaya setiap jaket bukan hanya pakaian — ia adalah identitas, kenangan angkatan, dan simbol kebersamaan.
               </p>
+            </div>
+            <div className="md:col-span-7 md:row-span-2 aspect-[16/12] md:aspect-auto overflow-hidden">
+              <img src={MEDIA.community} alt="community" className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" />
             </div>
             <div className="md:col-span-5 bg-[#141414] border border-white/10 p-8 md:p-10">
               <p className="overline text-[#D4AF37] mb-4">Misi Kami</p>
               <p className="text-white/70 leading-relaxed text-sm md:text-base">
-                Memudahkan komunitas, himpunan, dan organisasi kampus mendapatkan
-                jaket custom berkualitas dengan proses yang transparan, harga yang
-                terjangkau, dan hasil yang tahan lama.
+                Memudahkan komunitas, himpunan, dan organisasi kampus mendapatkan jaket custom berkualitas
+                dengan proses yang transparan, harga yang terjangkau, dan hasil yang tahan lama.
               </p>
             </div>
           </div>
@@ -83,14 +92,16 @@ export default function About() {
       <section className="py-24 md:py-32">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">
           <div className="grid md:grid-cols-4 gap-8 text-center md:text-left">
-              {[
-                { n: "6+", l: "Tahun pengalaman" },
-                { n: "500+", l: "Komunitas dilayani" },
-                { n: "15k+", l: "Apparel diproduksi" },
-                { n: "4.9/5", l: "Rating customer" },
-              ].map((stat, i) => (
+            {[
+              { n: 6, suffix: "+", l: "Tahun pengalaman" },
+              { n: 500, suffix: "+", l: "Komunitas dilayani" },
+              { n: 15, suffix: "k+", l: "Apparel diproduksi" },
+              { n: 4.9, suffix: "/5", l: "Rating customer" },
+            ].map((stat, i) => (
               <div key={i} data-testid={`stat-${i}`} className="border-t border-white/10 pt-6">
-                <p className="font-display text-5xl md:text-6xl font-bold text-[#D4AF37] tracking-tighter mb-2">{stat.n}</p>
+                <p className="font-display text-5xl md:text-6xl font-bold text-[#D4AF37] tracking-tighter mb-2">
+                  <CountUp to={stat.n} suffix={stat.suffix} />
+                </p>
                 <p className="text-sm uppercase tracking-widest text-white/50">{stat.l}</p>
               </div>
             ))}

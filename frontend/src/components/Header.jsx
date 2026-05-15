@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { List, X } from "@phosphor-icons/react";
+import { List, X, Sun, Moon } from "@phosphor-icons/react";
 import { BRAND } from "../lib/constants";
+import { useTheme } from "../contexts/ThemeContext";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -9,13 +10,14 @@ const NAV = [
   { to: "/products", label: "Product" },
   { to: "/design", label: "Make a Design" },
   { to: "/portfolio", label: "Portfolio" },
+  { to: "/story", label: "Join the Story" },
   { to: "/faq", label: "FAQ" },
-  { to: "/contact", label: "Contact" },
 ];
 
 export const Header = () => {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { theme, toggle } = useTheme();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -27,32 +29,31 @@ export const Header = () => {
     <header
       data-testid="site-header"
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
-        scrolled ? "bg-black/70 backdrop-blur-xl border-b border-white/10" : "bg-transparent"
+        scrolled ? "bg-[var(--header-bg)] backdrop-blur-xl border-b border-[var(--border)]" : "bg-transparent"
       }`}
     >
-      <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-20 flex items-center justify-between">
-        <Link to="/" data-testid="logo-link" className="flex items-center gap-3 group">
+      <div className="max-w-[1400px] mx-auto px-6 md:px-10 h-20 flex items-center justify-between gap-4">
+        <Link to="/" data-testid="logo-link" className="flex items-center gap-3 group shrink-0">
           <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center overflow-hidden shrink-0 ring-1 ring-white/20 group-hover:ring-[#D4AF37] transition-all">
             <img src={BRAND.logo} alt="DERIS logo" className="w-10 h-10 object-contain" />
           </div>
           <div className="flex flex-col leading-none">
-            <span className="font-display text-xl font-bold tracking-tighter">
-              {BRAND.name}
-              <span className="text-[#D4AF37]">.</span>
+            <span className="font-display text-xl font-bold tracking-tighter text-[var(--text)]">
+              {BRAND.name}<span className="text-[#D4AF37]">.</span>
             </span>
-            <span className="overline text-[10px] text-white/50 mt-1 hidden sm:inline">Custom Apparel</span>
+            <span className="overline text-[10px] text-[var(--text-muted)] mt-1 hidden sm:inline">Custom Apparel</span>
           </div>
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden xl:flex items-center gap-0.5">
           {NAV.map((n) => (
             <NavLink
               key={n.to}
               to={n.to}
               data-testid={`nav-${n.label.toLowerCase().replace(/\s+/g, "-")}`}
               className={({ isActive }) =>
-                `px-4 py-2 text-sm font-medium transition-colors duration-200 ${
-                  isActive ? "text-[#D4AF37]" : "text-white/70 hover:text-white"
+                `px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+                  isActive ? "text-[#D4AF37]" : "text-[var(--text-muted)] hover:text-[var(--text)]"
                 }`
               }
             >
@@ -61,7 +62,15 @@ export const Header = () => {
           ))}
         </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={toggle}
+            data-testid="theme-toggle"
+            className="w-10 h-10 flex items-center justify-center rounded-full border border-[var(--border)] hover:border-[#D4AF37] text-[var(--text)] hover:text-[#D4AF37] transition-colors"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun size={18} weight="duotone" /> : <Moon size={18} weight="duotone" />}
+          </button>
           <a
             href={BRAND.whatsappLink}
             target="_blank"
@@ -74,7 +83,7 @@ export const Header = () => {
           <button
             onClick={() => setOpen(!open)}
             data-testid="mobile-menu-toggle"
-            className="lg:hidden p-2 text-white"
+            className="xl:hidden p-2 text-[var(--text)]"
             aria-label="menu"
           >
             {open ? <X size={24} /> : <List size={24} />}
@@ -83,7 +92,7 @@ export const Header = () => {
       </div>
 
       {open && (
-        <div data-testid="mobile-menu" className="lg:hidden bg-black/95 backdrop-blur-xl border-t border-white/10">
+        <div data-testid="mobile-menu" className="xl:hidden bg-[var(--surface)] backdrop-blur-xl border-t border-[var(--border)]">
           <nav className="px-6 py-6 flex flex-col gap-1">
             {NAV.map((n) => (
               <NavLink
@@ -92,8 +101,8 @@ export const Header = () => {
                 onClick={() => setOpen(false)}
                 data-testid={`mobile-nav-${n.label.toLowerCase().replace(/\s+/g, "-")}`}
                 className={({ isActive }) =>
-                  `py-3 text-base font-medium border-b border-white/5 ${
-                    isActive ? "text-[#D4AF37]" : "text-white/80"
+                  `py-3 text-base font-medium border-b border-[var(--border)] ${
+                    isActive ? "text-[#D4AF37]" : "text-[var(--text)]"
                   }`
                 }
               >

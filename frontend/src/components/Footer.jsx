@@ -36,8 +36,8 @@ export const Footer = () => {
           <div className="md:col-span-3">
             <p className="overline text-white/50 mb-5">Navigasi</p>
             <ul className="space-y-3 text-sm">
-              {["Home", "About", "Product", "Make a Design", "Portfolio", "FAQ", "Contact"].map((n) => {
-                const to = n === "Home" ? "/" : n === "Make a Design" ? "/design" : `/${n.toLowerCase()}`;
+              {["Home", "About", "Product", "Make a Design", "Portfolio", "Join the Story", "FAQ"].map((n) => {
+                const to = n === "Home" ? "/" : n === "Make a Design" ? "/design" : n === "Join the Story" ? "/story" : `/${n.toLowerCase()}`;
                 return (
                   <li key={n}>
                     <Link to={to} className="text-white/70 hover:text-[#D4AF37] transition-colors">
