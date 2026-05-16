@@ -23,15 +23,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Foto utama from user */}
-      <section className="pb-12 md:pb-20">
-        <div className="max-w-[1400px] mx-auto px-6 md:px-10">
-          <div className="relative aspect-[16/10] md:aspect-[16/8] overflow-hidden bg-white border border-white/10">
-            <img src={MEDIA.aboutMain} alt="DERIS Community" className="w-full h-full object-cover" />
-          </div>
-          <p className="text-xs text-center text-white/40 mt-3 overline">There Is Your Apparel · DERIS Community 2024</p>
-        </div>
-      </section>
+      {/* Big hero foto removed per revision. The smaller foto remains in the grid below. */}
 
       <section className="pb-24 md:pb-32">
         <div className="max-w-[1400px] mx-auto px-6 md:px-10">

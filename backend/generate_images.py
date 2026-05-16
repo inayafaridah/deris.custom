@@ -25,7 +25,7 @@ JOBS = [
     ("varsity-jacket", "Premium black varsity jacket with cream sleeves and gold embroidery, hanging in a dark studio with dramatic gold rim lighting, product photography, no text, ultra realistic, 1:1"),
     ("bomber-jacket", "Bomber jacket hitam premium dengan detail ritsleting emas, tampak tiga perempat, pencahayaan studio dramatis, latar gelap gradasi, kesan eksklusif dan modern, no text, ultra realistic, 1:1"),
     ("harrington-jacket", "Classic harrington jacket in deep navy, product shot on a mannequin against dark backdrop with soft gold lighting, premium catalog style, no text, 1:1"),
-    ("coach-jacket", "Coach jacket hitam tipis ringan dengan aksen emas pada kerah dan ujung lengan, tampak depan penuh, latar outdoor kampus blur, kesan sporty dan komunitas, no text, ultra realistic, 1:1"),
+    ("coach-jacket", "Coach jacket hitam tipis dengan aksen emas pada kerah dan ujung lengan, tampak depan penuh, flat lay atau standing display tanpa model atau orang, latar studio gelap bersih, pencahayaan soft dramatis, kesan premium dan modern, no person no mannequin, no text, ultra realistic product photography, 1:1"),
     ("windbreaker", "Lightweight cream windbreaker jacket with navy trim, hanging in dark moody studio with gold rim light, premium product shot, no text, 1:1"),
     ("hoodie", "Hoodie hitam oversize premium, tampak depan, detail tali dan saku kanguru, tekstur bahan terlihat jelas, pencahayaan studio soft, latar gelap bersih, no text, ultra realistic, 1:1"),
     ("kemeja", "Black PDH formal shirt on a wooden hanger, dark studio with gold side light, premium catalog photography, no text, 1:1"),
